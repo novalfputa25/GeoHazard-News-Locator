@@ -168,10 +168,11 @@ Tangkapan layar berikut berasal dari aplikasi yang benar-benar dijalankan pada s
 
 ## 9. Cara Menjalankan Project di Windows
 
-Dari PowerShell, masuk ke folder project:
+Dari PowerShell, clone repository dan masuk ke folder project:
 
 ```powershell
-cd C:\Users\LENOVO\GeoHazard-News-Locator
+git clone -b clean-project https://github.com/novalfputa25/GeoHazard-News-Locator.git
+cd GeoHazard-News-Locator
 ```
 
 Buat virtual environment:
