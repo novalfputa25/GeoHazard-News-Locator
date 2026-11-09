@@ -1,0 +1,112 @@
+source_id,category,jenis_data,status_pemetaan,prioritas,bukti_pemetaan,keterbatasan_pemetaan
+bmkg_autogempa,Gempabumi,kejadian_aktual,terverifikasi,P1,Feed BMKG aktif; magnitudo dan koordinat tersedia,Hanya gempa terbaru; bukan arsip
+bmkg_autogempa,Tsunami,atribut_bahaya,kandidat,P1,Field Potensi pada item gempa,Bukan kejadian tsunami terpisah
+bmkg_gempa_terkini,Gempabumi,kejadian_aktual,terverifikasi,P1,Feed BMKG aktif; jendela 15 item,Jendela terbatas; bukan arsip
+bmkg_gempa_terkini,Tsunami,atribut_bahaya,kandidat,P1,Field Potensi pada item gempa,Bukan kejadian tsunami terpisah
+bmkg_gempa_dirasakan,Gempabumi,kejadian_aktual,terverifikasi,P1,Feed BMKG aktif; memuat dampak dirasakan,Tidak selalu memuat Potensi tsunami
+usgs_m45,Gempabumi,kejadian_aktual,terverifikasi,P1,Atom USGS aktif; koordinat tersedia,Bukan sumber resmi Indonesia
+gdacs_all,Gempabumi,kejadian_aktual,terverifikasi,P1,RSS GDACS aktif; filter Indonesia,Bukan sumber resmi RI
+gdacs_all,Tsunami,kejadian_aktual,kandidat,P1,GDACS dapat memuat peringatan tsunami,Tergantung item; bukan sumber resmi RI
+gdacs_eq_24h,Gempabumi,kejadian_aktual,kandidat,P2,Feed gempa 24 jam; nonaktif,Cadangan duplikasi gdacs_all
+antaranews_warta_bumi,Gunungapi,laporan_berita,kandidat,P2,Kanal bumi/lingkungan,Artikel bukan laporan resmi kejadian
+antaranews_warta_bumi,Gempabumi,laporan_berita,kandidat,P2,Kanal bumi/lingkungan,Artikel bukan laporan resmi kejadian
+antaranews_warta_bumi,Tsunami,laporan_berita,kandidat,P2,Kanal bumi/lingkungan,Artikel bukan laporan resmi kejadian
+antaranews_warta_bumi,Gerakan Tanah/Tanah Longsor,laporan_berita,kandidat,P2,Kanal bumi/lingkungan,Artikel bukan laporan resmi kejadian
+antaranews_warta_bumi,Likuefaksi,laporan_berita,kandidat,P2,Kanal bumi/lingkungan,Artikel bukan laporan resmi kejadian
+antaranews_warta_bumi,Abrasi dan Akresi,laporan_berita,kandidat,P2,Kanal bumi/lingkungan,Artikel bukan laporan resmi kejadian
+antaranews_warta_bumi,Penurunan Muka Tanah,laporan_berita,kandidat,P2,Kanal bumi/lingkungan,Artikel bukan laporan resmi kejadian
+antaranews_warta_bumi,Semburan Gas dan Lumpur,laporan_berita,kandidat,P2,Kanal bumi/lingkungan,Artikel bukan laporan resmi kejadian
+mongabay_indonesia,Gunungapi,laporan_berita,kandidat,P2,Feed lingkungan aktif,Artikel bukan laporan resmi kejadian
+mongabay_indonesia,Gempabumi,laporan_berita,kandidat,P2,Feed lingkungan aktif,Artikel bukan laporan resmi kejadian
+mongabay_indonesia,Tsunami,laporan_berita,kandidat,P2,Feed lingkungan aktif,Artikel bukan laporan resmi kejadian
+mongabay_indonesia,Gerakan Tanah/Tanah Longsor,laporan_berita,kandidat,P2,Feed lingkungan aktif,Artikel bukan laporan resmi kejadian
+mongabay_indonesia,Likuefaksi,laporan_berita,kandidat,P2,Feed lingkungan aktif,Artikel bukan laporan resmi kejadian
+mongabay_indonesia,Abrasi dan Akresi,laporan_berita,kandidat,P2,Feed lingkungan aktif,Artikel bukan laporan resmi kejadian
+mongabay_indonesia,Penurunan Muka Tanah,laporan_berita,kandidat,P2,Feed lingkungan aktif,Artikel bukan laporan resmi kejadian
+mongabay_indonesia,Semburan Gas dan Lumpur,laporan_berita,kandidat,P2,Feed lingkungan aktif,Artikel bukan laporan resmi kejadian
+bmkg_tsunami_page,Tsunami,informasi_manual,kandidat,P1,Halaman resmi gempa berpotensi tsunami,Perlu parser HTML; bukan feed
+bmkg_berita,Gunungapi,laporan_berita,kandidat,P2,Berita resmi BMKG,Artikel naratif; bukan data terstruktur
+bmkg_berita,Gempabumi,laporan_berita,kandidat,P2,Berita resmi BMKG,Artikel naratif; bukan data terstruktur
+bmkg_berita,Tsunami,laporan_berita,kandidat,P2,Berita resmi BMKG,Artikel naratif; bukan data terstruktur
+bmkg_berita,Gerakan Tanah/Tanah Longsor,laporan_berita,kandidat,P2,Berita resmi BMKG,Artikel naratif; bukan data terstruktur
+bmkg_berita,Likuefaksi,laporan_berita,kandidat,P2,Berita resmi BMKG,Artikel naratif; bukan data terstruktur
+bmkg_berita,Abrasi dan Akresi,laporan_berita,kandidat,P2,Berita resmi BMKG,Artikel naratif; bukan data terstruktur
+bmkg_berita,Penurunan Muka Tanah,laporan_berita,kandidat,P2,Berita resmi BMKG,Artikel naratif; bukan data terstruktur
+bmkg_berita,Semburan Gas dan Lumpur,laporan_berita,kandidat,P2,Berita resmi BMKG,Artikel naratif; bukan data terstruktur
+pvmbg_press_release,Gunungapi,kejadian_aktual,kandidat,P0,Press release resmi; 299 item,Perlu izin; robots Disallow /
+pvmbg_press_release,Gempabumi,kejadian_aktual,kandidat,P1,Press release resmi; 299 item,Perlu izin; robots Disallow /
+pvmbg_press_release,Gerakan Tanah/Tanah Longsor,kejadian_aktual,kandidat,P0,Press release resmi; 299 item,Perlu izin; robots Disallow /
+pvmbg_data_dasar,Gunungapi,informasi_kerentanan,kandidat,P0,Data dasar gunung api,Perlu izin; bukan umpan kejadian
+pvmbg_tingkat_aktivitas,Gunungapi,informasi_manual,kandidat,P0,Status aktivitas gunung api,Perlu izin; bukan katalog letusan
+pvmbg_laporan_singkat,Gunungapi,kejadian_aktual,kandidat,P0,Laporan singkat resmi; 61 item,Perlu izin; field belum diverifikasi penuh
+pvmbg_laporan_singkat,Gempabumi,kejadian_aktual,kandidat,P1,Laporan singkat resmi; 61 item,Perlu izin; field belum diverifikasi penuh
+pvmbg_laporan_singkat,Gerakan Tanah/Tanah Longsor,kejadian_aktual,kandidat,P0,Laporan singkat resmi; 61 item,Perlu izin; field belum diverifikasi penuh
+pvmbg_kajian_kejadian,Gunungapi,katalog_historis,kandidat,P0,Kajian kejadian; 749 item,Perlu izin; bukan real-time
+pvmbg_kajian_kejadian,Gempabumi,katalog_historis,kandidat,P1,Kajian kejadian; 749 item,Perlu izin; bukan real-time
+pvmbg_kajian_kejadian,Gerakan Tanah/Tanah Longsor,katalog_historis,kandidat,P0,Kajian kejadian; 749 item,Perlu izin; bukan real-time
+pvmbg_gerakan_tanah,Gerakan Tanah/Tanah Longsor,katalog_historis,kandidat,P0,Rekap gerakan tanah 2011-2012,Perlu izin; sangat terbatas
+portalmbg_field_reports,Gerakan Tanah/Tanah Longsor,kejadian_aktual,kandidat,P0,Laporan lapangan; 2397 titik; 619 doc_id,Perlu izin; 1 laporan bisa banyak titik
+portalmbg_field_reports,Likuefaksi,kejadian_aktual,belum_terverifikasi,P2,Kandidat event_type likuefaksi,Perlu izin; event_type belum diverifikasi
+portalmbg_destructive_eq,Gempabumi,kejadian_aktual,kandidat,P1,357 gempa merusak,Perlu izin; koordinat dan field perlu diverifikasi
+portalmbg_destructive_eq,Tsunami,atribut_bahaya,kandidat,P1,29 record bertanda tsunami,Perlu izin; flag bukan kejadian tsunami terpisah
+portalmbg_sigab,Gerakan Tanah/Tanah Longsor,kejadian_aktual,kandidat,P0,SIGAB 5 item,Perlu izin; semantik field belum diverifikasi
+portalmbg_volcano,Gunungapi,informasi_kerentanan,kandidat,P0,Data gunung api Portal MBG,Perlu izin; bukan umpan kejadian
+magma_informasi_letusan,Gunungapi,kejadian_aktual,kandidat,P0,Informasi letusan resmi,Perlu izin; parser HTML rapuh
+magma_laporan_harian,Gunungapi,informasi_manual,kandidat,P0,Laporan harian/aktivitas,Perlu izin; bukan API
+magma_tingkat_aktivitas,Gunungapi,informasi_manual,kandidat,P0,Tingkat aktivitas gunung api,Perlu izin; bukan katalog letusan
+magma_vona,Gunungapi,kejadian_aktual,kandidat,P0,Notifikasi VONA,Perlu izin; bukan katalog umum
+dibi_dashboard,Gunungapi,informasi_manual,kandidat,P2,Dashboard BNPB multibahaya,Bukan API kejadian individual
+dibi_dashboard,Gempabumi,informasi_manual,kandidat,P2,Dashboard BNPB multibahaya,Bukan API kejadian individual
+dibi_dashboard,Tsunami,informasi_manual,kandidat,P2,Dashboard BNPB multibahaya,Bukan API kejadian individual
+dibi_dashboard,Gerakan Tanah/Tanah Longsor,informasi_manual,kandidat,P2,Dashboard BNPB multibahaya,Bukan API kejadian individual
+dibi_dashboard,Likuefaksi,informasi_manual,kandidat,P2,Dashboard BNPB multibahaya,Bukan API kejadian individual
+dibi_dashboard,Abrasi dan Akresi,informasi_manual,kandidat,P2,Dashboard BNPB multibahaya,Bukan API kejadian individual
+dibi_dashboard,Penurunan Muka Tanah,informasi_manual,kandidat,P2,Dashboard BNPB multibahaya,Bukan API kejadian individual
+dibi_dashboard,Semburan Gas dan Lumpur,informasi_manual,kandidat,P2,Dashboard BNPB multibahaya,Bukan API kejadian individual
+data_bnpb_satu_data,Gunungapi,katalog_data,kandidat,P2,Portal data BNPB,Bukan bukti API kejadian individual
+data_bnpb_satu_data,Gempabumi,katalog_data,kandidat,P2,Portal data BNPB,Bukan bukti API kejadian individual
+data_bnpb_satu_data,Tsunami,katalog_data,kandidat,P2,Portal data BNPB,Bukan bukti API kejadian individual
+data_bnpb_satu_data,Gerakan Tanah/Tanah Longsor,katalog_data,kandidat,P2,Portal data BNPB,Bukan bukti API kejadian individual
+data_bnpb_satu_data,Likuefaksi,katalog_data,kandidat,P2,Portal data BNPB,Bukan bukti API kejadian individual
+data_bnpb_satu_data,Abrasi dan Akresi,katalog_data,kandidat,P2,Portal data BNPB,Bukan bukti API kejadian individual
+data_bnpb_satu_data,Penurunan Muka Tanah,katalog_data,kandidat,P2,Portal data BNPB,Bukan bukti API kejadian individual
+data_bnpb_satu_data,Semburan Gas dan Lumpur,katalog_data,kandidat,P2,Portal data BNPB,Bukan bukti API kejadian individual
+bnpb_gis_inarisk_catalog,Gunungapi,peta_risiko,kandidat,P2,Katalog peta bahaya/risiko InaRISK,Bukan feed kejadian
+bnpb_gis_inarisk_catalog,Gempabumi,peta_risiko,kandidat,P2,Katalog peta bahaya/risiko InaRISK,Bukan feed kejadian
+bnpb_gis_inarisk_catalog,Tsunami,peta_risiko,kandidat,P2,Katalog peta bahaya/risiko InaRISK,Bukan feed kejadian
+bnpb_gis_inarisk_catalog,Gerakan Tanah/Tanah Longsor,peta_risiko,kandidat,P2,Katalog peta bahaya/risiko InaRISK,Bukan feed kejadian
+bnpb_gis_inarisk_catalog,Likuefaksi,peta_risiko,kandidat,P2,Katalog peta bahaya/risiko InaRISK,Bukan feed kejadian
+bnpb_gis_inarisk_catalog,Abrasi dan Akresi,peta_risiko,kandidat,P2,Katalog peta bahaya/risiko InaRISK,Bukan feed kejadian
+bnpb_gis_tanahlongsor_2022,Gerakan Tanah/Tanah Longsor,katalog_historis,kandidat,P2,Layer titik statis 2022,Query data langsung gagal/500
+bnpb_gis_likuefaksi,Likuefaksi,peta_risiko,kandidat,P2,Layer bahaya likuefaksi,Endpoint detail 521
+bnpb_gis_abrasi,Abrasi dan Akresi,peta_risiko,kandidat,P2,Layer kerentanan abrasi,Endpoint detail 521
+big_atlas_kebencanaan,Gempabumi,peta_risiko,kandidat,P2,26 layer risiko/sesar/tsunami,Bukan feed kejadian
+big_atlas_kebencanaan,Tsunami,peta_risiko,kandidat,P2,Layer tsunami,Bukan feed kejadian
+big_atlas_kebencanaan,Gerakan Tanah/Tanah Longsor,peta_risiko,kandidat,P2,Layer risiko,Bukan feed kejadian
+big_atlas_kebencanaan,Gunungapi,peta_risiko,kandidat,P2,Layer risiko,Bukan feed kejadian
+bpls_sda,Semburan Gas dan Lumpur,informasi_manual,kandidat,P2,Halaman informasi BPLS,Bukan API/katalog kejadian
+geologi_patgtl,Penurunan Muka Tanah,informasi_manual,kandidat,P2,Profil/publikasi PATGTL,Tidak ada endpoint kejadian
+geologi_geohazard,Gunungapi,informasi_manual,kandidat,P2,Portal informasi Badan Geologi,Bukan feed kejadian
+geologi_geohazard,Gempabumi,informasi_manual,kandidat,P2,Portal informasi Badan Geologi,Bukan feed kejadian
+geologi_geohazard,Tsunami,informasi_manual,kandidat,P2,Portal informasi Badan Geologi,Bukan feed kejadian
+geologi_geohazard,Gerakan Tanah/Tanah Longsor,informasi_manual,kandidat,P2,Portal informasi Badan Geologi,Bukan feed kejadian
+geologi_geohazard,Likuefaksi,informasi_manual,kandidat,P2,Portal informasi Badan Geologi,Bukan feed kejadian
+geologi_geohazard,Abrasi dan Akresi,informasi_manual,kandidat,P2,Portal informasi Badan Geologi,Bukan feed kejadian
+geologi_geohazard,Penurunan Muka Tanah,informasi_manual,kandidat,P2,Portal informasi Badan Geologi,Bukan feed kejadian
+geologi_geohazard,Semburan Gas dan Lumpur,informasi_manual,kandidat,P2,Portal informasi Badan Geologi,Bukan feed kejadian
+geologi_likuefaksi_atlas,Likuefaksi,peta_risiko,kandidat,P2,Atlas kerentanan 2019,Bukan data kejadian
+kkp_root,Abrasi dan Akresi,informasi_manual,kandidat,P2,Portal KKP,Bukan API kejadian
+bpisdkp_abrasi,Abrasi dan Akresi,informasi_manual,kandidat,P2,Halaman abrasi akresi,404; tidak tersedia
+reliefweb_v2,Gunungapi,kejadian_aktual,kandidat,P2,API bencana internasional,403; perlu appname terdaftar
+reliefweb_v2,Gempabumi,kejadian_aktual,kandidat,P2,API bencana internasional,403; perlu appname terdaftar
+reliefweb_v2,Tsunami,kejadian_aktual,kandidat,P2,API bencana internasional,403; perlu appname terdaftar
+reliefweb_v2,Gerakan Tanah/Tanah Longsor,kejadian_aktual,kandidat,P2,API bencana internasional,403; perlu appname terdaftar
+reliefweb_v2,Likuefaksi,kejadian_aktual,kandidat,P2,API bencana internasional,403; perlu appname terdaftar
+reliefweb_v2,Abrasi dan Akresi,kejadian_aktual,kandidat,P2,API bencana internasional,403; perlu appname terdaftar
+reliefweb_v2,Penurunan Muka Tanah,kejadian_aktual,kandidat,P2,API bencana internasional,403; perlu appname terdaftar
+reliefweb_v2,Semburan Gas dan Lumpur,kejadian_aktual,kandidat,P2,API bencana internasional,403; perlu appname terdaftar
+bmkg_tsunami_catalog,Tsunami,katalog_historis,kandidat,P1,Katalog tsunami 416-2025; 181 kejadian,Bukan API; belum diverifikasi langsung
+bmkg_tsunami_catalog,Gempabumi,katalog_historis,kandidat,P1,Katalog gempa dan tsunami,Bukan API; belum diverifikasi langsung
+bnpb_inarisk_tsunami_map,Tsunami,peta_risiko,kandidat,P2,Peta bahaya tsunami,Bukan feed kejadian
+geologi_subsidence_pantura,Penurunan Muka Tanah,informasi_kerentanan,kandidat,P2,Peta laju 1:100000 2023,Peta kerentanan; bukan kejadian
+bpls_sidoarjo_history,Semburan Gas dan Lumpur,informasi_manual,kandidat,P2,Sejarah semburan Sidoarjo,Informasi historis satu peristiwa

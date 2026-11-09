@@ -1,0 +1,86 @@
+# ============================================================
+# GEOHAZARD NEWS LOCATOR
+# REFERENSI WILAYAH INDONESIA (38 PROVINSI)
+# ============================================================
+#
+# Daftar provinsi terbaru (termasuk 4 provinsi baru di Papua)
+# beserta alias yang sering dipakai di berita.
+# ============================================================
+
+# Nama kanonik (untuk output) dan kunci pencocokan.
+PROVINCES = [
+    "Aceh",
+    "Sumatera Utara",
+    "Sumatera Barat",
+    "Riau",
+    "Kepulauan Riau",
+    "Jambi",
+    "Bengkulu",
+    "Sumatera Selatan",
+    "Kepulauan Bangka Belitung",
+    "Lampung",
+    "Banten",
+    "DKI Jakarta",
+    "Jawa Barat",
+    "Jawa Tengah",
+    "DI Yogyakarta",
+    "Jawa Timur",
+    "Bali",
+    "Nusa Tenggara Barat",
+    "Nusa Tenggara Timur",
+    "Kalimantan Barat",
+    "Kalimantan Tengah",
+    "Kalimantan Selatan",
+    "Kalimantan Timur",
+    "Kalimantan Utara",
+    "Sulawesi Utara",
+    "Gorontalo",
+    "Sulawesi Tengah",
+    "Sulawesi Barat",
+    "Sulawesi Selatan",
+    "Sulawesi Tenggara",
+    "Maluku",
+    "Maluku Utara",
+    "Papua",
+    "Papua Barat",
+    "Papua Barat Daya",
+    "Papua Tengah",
+    "Papua Pegunungan",
+    "Papua Selatan",
+]
+
+# Alias / singkatan -> nama kanonik.
+PROVINCE_ALIASES = {
+    "di yogyakarta": "DI Yogyakarta",
+    "daerah istimewa yogyakarta": "DI Yogyakarta",
+    "yogyakarta": "DI Yogyakarta",
+    "jogjakarta": "DI Yogyakarta",
+    "jogja": "DI Yogyakarta",
+    "diy": "DI Yogyakarta",
+    "dki jakarta": "DKI Jakarta",
+    "dki": "DKI Jakarta",
+    "jakarta": "DKI Jakarta",
+    "kepulauan bangka belitung": "Kepulauan Bangka Belitung",
+    "bangka belitung": "Kepulauan Bangka Belitung",
+    "babel": "Kepulauan Bangka Belitung",
+    "sumut": "Sumatera Utara",
+    "sumbar": "Sumatera Barat",
+    "sumsel": "Sumatera Selatan",
+    "jabar": "Jawa Barat",
+    "jateng": "Jawa Tengah",
+    "jatim": "Jawa Timur",
+    "kalbar": "Kalimantan Barat",
+    "kalteng": "Kalimantan Tengah",
+    "kalsel": "Kalimantan Selatan",
+    "kaltim": "Kalimantan Timur",
+    "kaltara": "Kalimantan Utara",
+    "sulut": "Sulawesi Utara",
+    "sulteng": "Sulawesi Tengah",
+    "sulsel": "Sulawesi Selatan",
+    "sultra": "Sulawesi Tenggara",
+    "sulbar": "Sulawesi Barat",
+    "malut": "Maluku Utara",
+    "ntb": "Nusa Tenggara Barat",
+    "ntt": "Nusa Tenggara Timur",
+    "papbar": "Papua Barat",
+}

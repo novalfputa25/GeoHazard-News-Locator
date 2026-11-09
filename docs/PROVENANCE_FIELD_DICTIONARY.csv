@@ -1,0 +1,184 @@
+﻿entity,field_name,field_type,required,allowed_values,description,example,validation_rules,notes
+source,source_id,string,wajib,ID dari docs/MASTER_SOURCE_REGISTER.csv,ID sumber yang terdaftar; bukan nama institusi dan bukan ID buatan.,bmkg_gempa_terkini,R-SRC-01;R-SRC-02,Hanya untuk sumber yang benar-benar terdaftar. Data historis tanpa pemetaan feed tidak boleh diberi ID baru.
+source,source_name,string,wajib,Teks,Nama sumber/feed seperti di register.,BMKG Open Data - Gempa Terkini,R-SRC-01,"Nama tampilan, bukan pengganti source_id."
+source,source_institution,string,wajib,Teks,Institusi penerbit atau pengelola sumber.,BMKG,R-SRC-01,"Untuk sumber internasional, tetap dicatat negaranya."
+source,source_country,string,opsional,Indonesia;internasional;tidak_diketahui,Negara/region asal sumber.,Indonesia,R-SRC-04,Membantu membedakan sumber resmi RI dan sumber internasional.
+source,source_language,string,opsional,id;en;lainnya;tidak_diketahui,Bahasa utama sumber.,id,R-SRC-04,
+source,source_type,enum,wajib,official;news;aggregator;risk_map;publication;gazetteer;unknown,Jenis sumber menurut sifat penerbit dan data.,official,R-SRC-04;R-EVT-04,Sumber resmi tidak otomatis berarti seluruh field terverifikasi.
+source,source_role,enum,wajib,primary_official;supporting_official;news_support;aggregator_support;risk_context;reference;unknown,Peran sumber dalam sistem.,primary_official,R-SRC-04,Hanya primary_official yang boleh menjadi dasar status resmi.
+source,source_data_type,enum,wajib,event_feed;report;map;article;gazetteer;mixed;unknown,Bentuk data utama yang dihasilkan sumber.,event_feed,R-SRC-04,Feed berita tidak boleh diberi event_feed. Peta/publikasi bukan feed kejadian.
+source,source_url,string,wajib,URL,URL halaman/katalog sumber.,https://data.bmkg.go.id/,R-SRC-01,"URL halaman sumber, bukan URL artikel."
+source,source_feed_url,string,opsional,URL,URL endpoint feed/API yang dipakai.,https://data.bmkg.go.id/DataMKG/TEWS/gempaterkini.xml,R-SRC-01,Boleh kosong untuk portal manual.
+source,source_registry_status,enum,wajib_kondisional,TERVERIFIKASI_AKTIF;TERVERIFIKASI_MANUAL;PERLU_IZIN;BELUM_TERSEDIA;TIDAK_SESUAI,Status sumber sesuai register.,TERVERIFIKASI_AKTIF,R-SRC-03,"PERLU_IZIN, BELUM_TERSEDIA, dan TIDAK_SESUAI tidak boleh dijadikan sumber aktif."
+source,source_license_status,enum,wajib,verified;unverified;restricted;public_domain;unknown,Status dasar penggunaan/lisensi.,unverified,R-SRC-05,HTTP 200 bukan izin redistribusi.
+source,source_license,string,opsional,Teks,Nama/ketentuan lisensi sumber bila diketahui.,belum_diverifikasi,R-SRC-05,Jangan menyimpulkan lisensi dari status HTTP atau robots.txt.
+source,source_terms_url,string,opsional,URL,URL syarat penggunaan/lisensi.,,R-SRC-05,Wajib diisi bila tersedia.
+source,source_last_tested_at,datetime,opsional,ISO 8601,Waktu uji akses terakhir.,2026-11-02,R-SRC-03,Tanggal uji bukan tanggal kejadian.
+source,source_http_status,integer,opsional,Kode HTTP,Status HTTP saat uji terakhir.,200,R-SRC-03,
+source,source_robots_status,enum,opsional,allowed;disallowed;not_found;unreadable;not_checked,Status robots.txt.,unreadable,R-SRC-05,Jangan menganggap robots yang tidak terbaca sebagai izin.
+source,source_notes,text,opsional,Teks,Catatan batasan sumber.,"Jendela 15 item, bukan arsip.",R-SRC-05,
+raw_payload,raw_payload_id,string,wajib_kondisional,ID unik,ID snapshot mentah sebelum normalisasi.,RAW-CONTOH-01,R-RAW-01;R-RAW-02,Wajib untuk data baru; boleh NULL untuk data historis.
+raw_payload,raw_payload_source_id,string,wajib_kondisional,FK source.source_id,Sumber yang menghasilkan payload.,bmkg_gempa_terkini,R-RAW-01;R-SRC-01,
+raw_payload,raw_payload_url,string,wajib_kondisional,URL,URL tepat yang diambil.,https://data.bmkg.go.id/DataMKG/TEWS/gempaterkini.xml,R-RAW-01,
+raw_payload,raw_payload_retrieved_at,datetime,wajib_kondisional,ISO 8601,Waktu pengambilan payload.,2026-11-02T09:00:00Z,R-RAW-01;R-RAW-03,"Ini waktu pengumpulan, bukan waktu publikasi/kejadian."
+raw_payload,raw_payload_http_status,integer,opsional,Kode HTTP,Status HTTP saat pengambilan.,200,R-RAW-01,
+raw_payload,raw_payload_content_type,string,opsional,MIME type,Tipe konten respons.,text/xml,R-RAW-01,
+raw_payload,raw_payload_sha256,string,wajib_kondisional,64 karakter hex,Hash SHA-256 payload mentah.,0123...abcd,R-RAW-02,Wajib untuk data baru.
+raw_payload,raw_payload_size_bytes,integer,opsional,Bilangan bulat >= 0,Ukuran payload.,5300,R-RAW-02,
+raw_payload,raw_payload_path,string,wajib_kondisional,Path lokal,Lokasi penyimpanan payload mentah.,raw/2026/11/02/bmkg_gempaterkini.xml.gz,R-RAW-02;R-RAW-04,Payload mentah immutable; jangan menimpa.
+raw_payload,raw_payload_status,enum,wajib,stored;missing;restricted;not_applicable,Status ketersediaan payload mentah.,stored,R-RAW-04,Data historis tanpa snapshot memakai missing.
+raw_payload,raw_payload_notes,text,opsional,Teks,Catatan penyimpanan/akses.,Snapshot tidak tersedia pada baseline.,R-RAW-04,
+document,document_id,string,wajib,ID unik,ID dokumen/berita; bukan ID kejadian.,DOC-CONTOH-01,R-DOC-01;R-DOC-02,"Dapat diturunkan dari canonical URL/ID dokumen, bukan dari nomor baris."
+document,document_type,enum,wajib,official_event_record;news_article;official_report;risk_map;publication;dashboard;unknown,Jenis dokumen.,news_article,R-DOC-02;R-SRC-04,
+document,document_source_id,string,wajib_kondisional,FK source.source_id atau NULL,Sumber register yang menghasilkan dokumen.,bmkg_gempaterkini,R-DOC-03;R-LEG-01,NULL hanya jika identitas sumber tidak dapat dipastikan.
+document,document_source_label,string,wajib_kondisional,Teks,Label sumber dari data historis bila source_id tidak tersedia.,BMKG,R-LEG-01;R-LEG-02,Jangan mengubah label menjadi source_id.
+document,document_source_identity_status,enum,wajib,registered;legacy_label_only;unresolved,Tingkat kepastian identitas sumber dokumen.,legacy_label_only,R-LEG-01;R-LEG-02,registered berarti source_id valid; legacy_label_only berarti hanya label.
+document,document_source_type,enum,wajib_kondisional,official;news;aggregator;risk_map;publication;gazetteer;unknown,Snapshot jenis sumber pada saat dokumen diambil.,official,R-DOC-03;R-EVT-04;R-LEG-04,"Untuk data historis, ini membantu memisahkan berita dan resmi tanpa mengarang source_id."
+document,document_source_role,enum,wajib_kondisional,primary_official;supporting_official;news_support;aggregator_support;risk_context;reference;unknown,Snapshot peran sumber pada saat dokumen diambil.,primary_official,R-DOC-03;R-EVT-04,
+document,document_url,string,wajib_kondisional,URL,URL dokumen asli.,https://www.bmkg.go.id/gempabumi/...,R-DOC-02,
+document,document_url_canonical,string,opsional,URL,URL kanonik untuk deduplikasi.,https://www.bmkg.go.id/gempabumi/...,R-DOC-02;R-DUP-01,Normalisasi tidak boleh menghilangkan parameter identitas kejadian.
+document,document_title,string,wajib,Teks,Judul dokumen.,Gempa M4.1 ... Ruteng,R-DOC-02,
+document,document_publisher,string,opsional,Teks,Penerbit yang tertera.,BMKG,R-DOC-03,
+document,document_author,string,opsional,Teks,Penulis/byline bila ada.,,R-DOC-03,
+document,document_language,string,opsional,id;en;lainnya;tidak_diketahui,Bahasa dokumen.,id,R-DOC-03,
+document,document_external_id,string,opsional,Teks,"ID dokumen dari sumber, bila ada.",,R-DOC-01;R-DUP-02,Bukan event_id.
+document,document_legacy_row_ref,string,opsional,Teks,"Referensi baris baseline historis untuk audit, bukan identitas dokumen.",data-index:9,R-LEG-03,Jangan memakai nomor baris sebagai document_id; nomor baris dapat berubah.
+document,document_content_hash,string,wajib_kondisional,64 karakter hex,Hash konten yang dinormalisasi.,0123...abcd,R-DOC-02;R-RAW-02,Wajib untuk data baru; boleh NULL pada data historis.
+document,document_raw_payload_id,string,wajib_kondisional,FK raw_payload.raw_payload_id,Snapshot mentah dokumen.,RAW-CONTOH-01,R-DOC-04;R-RAW-01,Wajib untuk data baru.
+document,document_published_at,datetime,wajib_kondisional,ISO 8601 dengan offset,Waktu publikasi dokumen.,2026-10-18T08:02:46+00:00,R-TIME-01;R-TIME-02,Jangan pernah dipakai sebagai event_time.
+document,document_retrieved_at,datetime,wajib_kondisional,ISO 8601 dengan offset,Waktu dokumen diambil.,2026-11-02T09:00:00Z,R-TIME-01;R-TIME-02,Berbeda dari published_at dan event_time.
+document,document_updated_at,datetime,opsional,ISO 8601 dengan offset,Waktu pembaruan dokumen di sumber.,,R-TIME-01,
+document,document_run_id,string,wajib_kondisional,ID run,ID proses pengumpulan.,RUN-CONTOH-20261102-01,R-DOC-04;R-RAW-01,Wajib untuk data baru; NULL untuk data historis.
+document,document_status,enum,wajib,available;restricted;unavailable;unknown,Status akses dokumen.,available,R-DOC-03,
+document,document_provenance_status,enum,wajib,complete;partial;legacy_incomplete;unresolved,Kelengkapan provenance dokumen.,legacy_incomplete,R-DOC-04;R-LEG-02,Data historis tanpa raw/run memakai legacy_incomplete.
+document,document_notes,text,opsional,Teks,Catatan dokumen.,Raw payload tidak tersedia pada baseline.,R-DOC-04,
+event,event_id,string,wajib,ID unik,ID kejadian; bukan ID berita.,EVT-CONTOH-01,R-EVT-01;R-EVT-02,"Gunakan native ID sumber bila ada; jika tidak, ID kandidat yang stabil. Jangan memakai nomor baris."
+event,event_group_id,string,opsional,ID unik,ID kelompok kejadian terkait (mis. beberapa erupsi dalam satu rentang).,EVT-GROUP-CONTOH-KRAKATAU-20261018,R-EVT-05;R-LINK-03,Grup bukan pengganti event individual.
+event,event_source_native_id,string,opsional,Teks,"ID kejadian asli dari sumber (USGS event id, dsb.).",,R-EVT-01;R-DUP-02,Kosongkan bila sumber tidak menyediakan ID.
+event,event_primary_source_id,string,wajib_kondisional,FK source.source_id atau NULL,Sumber utama yang menetapkan kejadian.,usgs_m45,R-EVT-02;R-EVT-03;R-LEG-04,"NULL diperbolehkan untuk data historis, dengan status provenance yang jelas."
+event,event_title,string,wajib,Teks,Judul ringkas kejadian yang dinormalisasi.,Gempa M4.1 di utara Ruteng,R-EVT-01,
+event,event_summary,text,opsional,Teks,"Ringkasan kejadian, bukan salinan berita.",,R-EVT-01,
+event,event_status,enum,wajib,candidate;reported;confirmed;disputed;retracted;unknown,Status faktual kejadian.,confirmed,R-EVT-03;R-EVT-04,Berita saja tidak boleh menghasilkan confirmed.
+event,event_verification_status,enum,wajib,unverified;source_asserted;corroborated;official;disputed;rejected;not_applicable,Status verifikasi kejadian.,official,R-VER-01;R-VER-02;R-EVT-03,Definisi ada di FINAL_PROVENANCE_SCHEMA.md.
+event,event_verification_level,enum,wajib,none;low;medium;high;official,Tingkat keyakinan verifikasi.,official,R-VER-01;R-VER-03,
+event,event_first_reported_at,datetime,opsional,ISO 8601 dengan offset,Waktu laporan pertama yang diketahui.,,R-TIME-01;R-TIME-02,Jangan mengisi hanya dari published_at tanpa bukti.
+event,event_last_updated_at,datetime,opsional,ISO 8601 dengan offset,Waktu pembaruan kejadian terakhir.,,R-TIME-01,
+event,event_notes,text,opsional,Teks,Catatan kejadian.,,R-EVT-03,
+event_time,event_time_id,string,wajib,ID unik,ID catatan waktu kejadian.,TIME-CONTOH-01,R-TIME-01,
+event_time,event_id,string,wajib,FK event.event_id,Kejadian yang memiliki catatan waktu ini.,EVT-CONTOH-01,R-TIME-01;R-EVT-01,
+event_time,event_time,datetime,wajib_kondisional,ISO 8601 dengan offset; ISO 8601 tanggal bila presisi=day; NULL,Waktu kejadian aktual/terbaik yang memiliki bukti.,2026-10-18T15:02:46+07:00,R-TIME-01;R-TIME-02;R-TIME-03,NULL jika tidak diketahui; jangan memakai published_at. Tanggal saja boleh disimpan bila presisi=day.
+event_time,event_time_start,datetime,opsional,ISO 8601 dengan offset,Awal rentang kejadian.,,R-TIME-03,
+event_time,event_time_end,datetime,opsional,ISO 8601 dengan offset,Akhir rentang kejadian.,,R-TIME-03,
+event_time,event_time_precision,enum,wajib,second;minute;hour;day;month;year;range;unknown,Presisi waktu kejadian.,second,R-TIME-03,"Tanggal saja memakai day, bukan second."
+event_time,event_time_kind,enum,wajib,actual;estimated;forecast;nowcast;unknown,Sifat waktu kejadian.,actual,R-TIME-04,Nowcast/prediksi tidak boleh dianggap aktual.
+event_time,event_time_status,enum,wajib,extracted;date_only;manual_review;unknown;not_applicable,Status ekstraksi waktu kejadian.,extracted,R-TIME-01;R-TIME-02,manual_review memetakan status lama perlu_review.
+event_time,event_time_basis,enum,wajib,official_field;official_document;news_text;manual_review;not_available,Dasar penentuan waktu.,official_field,R-TIME-01;R-TIME-02,"Wajib menjelaskan asal, bukan hanya nilai."
+event_time,event_time_evidence,text,wajib_kondisional,Teks/URL/path,Bukti pendukung waktu kejadian.,Tanggal: 18 Okt 2026 15:02:46 WIB,R-TIME-01;R-TIME-05,Wajib bila event_time terisi.
+event_time,event_time_candidate_text,text,opsional,Teks,Teks kandidat waktu yang belum dapat diresolusi.,Minggu (18/10),R-TIME-02;R-TIME-05,Jangan diubah menjadi event_time tanpa tahun/konteks.
+event_time,event_time_review_reason,text,opsional,Teks,Alasan waktu masih perlu review.,Tanggal tanpa tahun.,R-TIME-05,
+event_time,event_time_timezone,string,wajib_kondisional,IANA timezone,Zona waktu kejadian.,Asia/Jakarta,R-TIME-03;R-TIME-06,Wajib bila event_time diketahui; NULL bila tidak diketahui.
+event_time,event_time_confidence,enum,wajib,high;medium;low;unknown,Keyakinan waktu kejadian.,high,R-TIME-03;R-TIME-05,
+location_mention,location_mention_id,string,wajib,ID unik,ID penyebutan lokasi di dalam dokumen.,LOCM-CONTOH-01,R-LOC-03,
+location_mention,document_id,string,wajib,FK document.document_id,Dokumen tempat lokasi disebut.,DOC-CONTOH-01,R-LOC-03;R-DOC-01,
+location_mention,linked_event_id,string,opsional,FK event.event_id atau NULL,"Kejadian yang terkait dengan penyebutan ini, bila jelas.",EVT-CONTOH-01,R-LOC-03;R-LINK-01,NULL bila artikel menyebut banyak kejadian dan hubungan belum jelas.
+location_mention,mention_text,string,wajib,Teks,Teks lokasi seperti tertulis di dokumen.,Pusat gempa berada di laut 56 km utara Ruteng,R-LOC-03;R-LOC-04,Jangan mengganti dengan koordinat.
+location_mention,mention_normalized,string,opsional,Teks,Nama lokasi yang dinormalisasi.,Ruteng,R-LOC-04;R-LOC-05,Normalisasi nama bukan verifikasi lokasi.
+location_mention,mention_role,enum,wajib,event_location;administrative_reference;contextual;unknown,Peran penyebutan.,event_location,R-LOC-03;R-LOC-04,Bedakan lokasi kejadian dari rujukan administratif.
+location_mention,mention_status,enum,wajib,raw;normalized;ambiguous;rejected,Status pengolahan penyebutan.,normalized,R-LOC-04,
+location_mention,mention_confidence,enum,wajib,high;medium;low;unknown,Keyakinan normalisasi penyebutan.,medium,R-LOC-04,
+location_mention,mention_evidence,text,opsional,Teks/URL,Kutipan/bukti penyebutan.,Judul: ... 56 km utara Ruteng,R-LOC-04,
+location_mention,mention_notes,text,opsional,Teks,Catatan penyebutan.,,R-LOC-04,
+event_location,event_location_id,string,wajib,ID unik,ID lokasi kejadian yang telah diresolusi.,LOCE-CONTOH-01,R-LOC-01,
+event_location,event_id,string,wajib,FK event.event_id,Kejadian yang memiliki lokasi ini.,EVT-CONTOH-01,R-LOC-01,
+event_location,location_name,string,wajib_kondisional,Teks,Nama lokasi kejadian.,56 km utara Ruteng,R-LOC-04,
+event_location,location_role,enum,wajib,epicenter;event_area;affected_area;reported_location;unknown,Peran lokasi terhadap kejadian.,epicenter,R-LOC-03;R-LOC-04,reported_location belum tentu titik kejadian.
+event_location,admin_province,string,opsional,Nama provinsi,Provinsi referensi/kejadian.,Nusa Tenggara Timur,R-LOC-04,
+event_location,admin_kabupaten_kota,string,opsional,Nama kabupaten/kota,Kabupaten/kota referensi/kejadian.,Kabupaten Manggarai,R-LOC-04,
+event_location,admin_kecamatan,string,opsional,Nama kecamatan,Kecamatan referensi/kejadian.,,R-LOC-04,
+event_location,admin_desa_kelurahan,string,opsional,Nama desa/kelurahan,Desa/kelurahan referensi/kejadian.,,R-LOC-04,
+event_location,latitude,decimal,wajib_kondisional,-90 sampai 90,Latitude kejadian.,-8.14,R-LOC-01;R-LOC-02;R-LOC-06,Wajib bila longitude diisi.
+event_location,longitude,decimal,wajib_kondisional,-180 sampai 180,Longitude kejadian.,120.29,R-LOC-01;R-LOC-02;R-LOC-06,Wajib bila latitude diisi.
+event_location,coordinate_source,enum,wajib_kondisional,source_api;source_page;source_document;manual;derived;unknown,Asal koordinat.,source_page,R-LOC-01;R-LOC-02,Wajib bila koordinat tersedia.
+event_location,coordinate_status,enum,wajib,not_available;source_coordinate;reported_coordinate;approximate;verified;rejected,Status koordinat.,source_coordinate,R-LOC-01;R-LOC-02;R-LOC-06,source_coordinate bukan verified.
+event_location,coordinate_precision,enum,wajib_kondisional,point;approximate;admin_centroid;unknown,Presisi koordinat.,point,R-LOC-02;R-LOC-06,
+event_location,coordinate_confidence,enum,wajib,high;medium;low;unknown,Keyakinan koordinat.,medium,R-LOC-02;R-LOC-06,
+event_location,coordinate_verified_at,datetime,wajib_kondisional,ISO 8601,Waktu verifikasi koordinat.,,R-LOC-07,Wajib bila coordinate_status=verified.
+event_location,coordinate_verified_by,string,wajib_kondisional,Peran/ID verifikator,Pihak yang memverifikasi koordinat.,,R-LOC-07,"Gunakan peran, bukan data pribadi; wajib bila verified."
+event_location,is_inside_indonesia,boolean,opsional,ya;tidak;tidak_diketahui,Apakah lokasi berada di Indonesia.,ya,R-LOC-05,9 koordinat USGS pada baseline berada di luar Indonesia.
+event_location,location_evidence,text,opsional,Teks/URL,Bukti lokasi.,URL BMKG + judul,R-LOC-04;R-LOC-06,
+event_location,location_notes,text,opsional,Teks,Catatan lokasi.,Koordinat belum diverifikasi manual.,R-LOC-06,
+category,category_assignment_id,string,wajib,ID unik,ID penetapan kategori.,CAT-CONTOH-01,R-CAT-01,
+category,event_id,string,wajib,FK event.event_id,Kejadian yang diberi kategori.,EVT-CONTOH-01,R-CAT-01,
+category,category_name,enum,wajib,Gunungapi;Gempabumi;Tsunami;Gerakan Tanah/Tanah Longsor;Likuefaksi;Abrasi dan Akresi;Penurunan Muka Tanah;Semburan Gas dan Lumpur;Lainnya,Kategori bahaya.,Gempabumi,R-CAT-01;R-CAT-02,Tidak boleh menambah kategori baru.
+category,category_rank,enum,wajib,primary;secondary,Peringkat kategori pada kejadian.,primary,R-CAT-01,
+category,category_scope,enum,wajib,in_scope;out_of_scope;unclassified,Status ruang lingkup.,in_scope,R-CAT-02,Karhutla/Cuaca Ekstrem tidak boleh masuk in_scope geologi.
+category,category_basis,enum,wajib,official_metadata;source_title;source_body;manual_review;legacy_label;unknown,Dasar penetapan kategori.,official_metadata,R-CAT-03,
+category,category_confidence,enum,wajib,high;medium;low;unknown,Keyakinan kategori.,high,R-CAT-03,
+category,category_review_status,enum,wajib,not_reviewed;pending;accepted;changed;rejected,Status review kategori.,not_reviewed,R-CAT-04,
+category,category_reviewed_by,string,opsional,Peran/ID,Pihak yang mereview.,,R-CAT-04,
+category,category_reviewed_at,datetime,opsional,ISO 8601,Waktu review kategori.,,R-CAT-04,
+category,category_original,string,opsional,Teks,Kategori asli sebelum pemetaan.,Gempa Bumi,R-CAT-03,
+category,category_notes,text,opsional,Teks,Alasan perubahan/catatan.,,R-CAT-03;R-CAT-04,
+document_event_link,link_id,string,wajib,ID unik,ID relasi dokumen-kejadian.,LINK-CONTOH-01,R-LINK-01,
+document_event_link,document_id,string,wajib,FK document.document_id,Dokumen/berita.,DOC-CONTOH-01,R-LINK-01;R-LINK-05,
+document_event_link,event_id,string,wajib,FK event.event_id,Kejadian.,EVT-CONTOH-01,R-LINK-01;R-LINK-05,
+document_event_link,relation_type,enum,wajib,reports;confirms;corroborates;disputes;mentions;follows_up;duplicate_of;corrects;contextualizes;derived_from,Jenis relasi.,reports,R-LINK-02,
+document_event_link,relation_direction,enum,wajib,document_to_event;event_to_document;symmetric,Arah relasi.,document_to_event,R-LINK-02,
+document_event_link,relevance,enum,wajib,primary;supporting;context;duplicate,Tingkat relevansi.,supporting,R-LINK-02,
+document_event_link,is_primary,boolean,wajib,ya;tidak,Apakah dokumen ini sumber utama untuk kejadian.,tidak,R-LINK-02,
+document_event_link,relation_confidence,enum,wajib,high;medium;low;unknown,Keyakinan relasi.,medium,R-LINK-02,
+document_event_link,relation_evidence,text,opsional,Teks/URL,Bukti relasi.,Judul menyebut erupsi.,R-LINK-02,
+document_event_link,event_count_mentioned,integer,opsional,Bilangan bulat >= 1,Jumlah kejadian yang disebut dalam dokumen.,3,R-LINK-03,Wajib bila dokumen membahas lebih dari satu kejadian.
+document_event_link,link_status,enum,wajib,active;superseded;rejected,Status relasi.,active,R-LINK-04,
+document_event_link,link_created_at,datetime,opsional,ISO 8601,Waktu relasi dibuat.,,R-LINK-01,
+document_event_link,link_created_by,string,opsional,Peran/ID,Pembuat relasi.,,R-LINK-01,
+event_assertion,assertion_id,string,wajib,ID unik,ID klaim/assertion dari sumber.,AST-CONTOH-01,R-AST-01,
+event_assertion,event_id,string,wajib,FK event.event_id,Kejadian yang diklaim.,EVT-CONTOH-01,R-AST-01,
+event_assertion,document_id,string,opsional,FK document.document_id,Dokumen sumber klaim.,DOC-CONTOH-01,R-AST-01,
+event_assertion,source_id,string,wajib_kondisional,FK source.source_id atau NULL,"Sumber klaim, bila terdaftar.",bmkg_gempa_terkini,R-AST-01;R-SRC-01,NULL untuk data historis tanpa identitas sumber.
+event_assertion,field_name,enum,wajib,event_time;latitude;longitude;location_name;category;magnitude;depth;event_status;other,Field yang diklaim.,latitude,R-AST-01;R-AST-03,
+event_assertion,asserted_value,text,wajib,Teks,Nilai yang diklaim sumber.,-8.14,R-AST-02,
+event_assertion,assertion_status,enum,wajib,proposed;accepted;rejected;superseded;conflict,Status klaim.,accepted,R-AST-02,
+event_assertion,assertion_confidence,enum,wajib,high;medium;low;unknown,Keyakinan klaim.,high,R-AST-02,
+event_assertion,assertion_evidence,text,opsional,Teks/URL,Bukti klaim.,Field XML BMKG,R-AST-02,
+event_assertion,asserted_at,datetime,opsional,ISO 8601,Waktu klaim diterima/dicatat.,,R-AST-01,
+event_assertion,assertion_notes,text,opsional,Teks,Catatan konflik/resolusi.,,R-AST-02,
+event_relation,event_relation_id,string,wajib,ID unik,ID relasi antar-kejadian.,EREL-CONTOH-01,R-REL-01,
+event_relation,from_event_id,string,wajib,FK event.event_id,Kejadian asal.,EVT-CONTOH-GEMPA,R-REL-01;R-REL-02,
+event_relation,to_event_id,string,wajib,FK event.event_id,Kejadian tujuan.,EVT-CONTOH-TSUNAMI,R-REL-01;R-REL-02,
+event_relation,event_relation_type,enum,wajib,same_event;component_of;secondary_hazard_of;duplicate_of;supersedes;related_to,Jenis relasi kejadian.,secondary_hazard_of,R-REL-02;R-REL-03,
+event_relation,event_relation_confidence,enum,wajib,high;medium;low;unknown,Keyakinan relasi.,medium,R-REL-02,
+event_relation,event_relation_evidence,text,opsional,Teks/URL,Bukti relasi.,,R-REL-02,
+event_relation,created_at,datetime,opsional,ISO 8601,Waktu relasi dibuat.,,R-REL-01,
+verification,verification_id,string,wajib,ID unik,ID catatan verifikasi.,VER-CONTOH-01,R-VER-01,
+verification,target_type,enum,wajib,source;raw_payload;document;event;event_time;event_location;category;document_event_link;event_assertion;event_relation;event_attribute,Objek yang diverifikasi.,event,R-VER-01,
+verification,target_id,string,wajib,ID target,ID objek yang diverifikasi.,EVT-CONTOH-01,R-VER-01,
+verification,verification_status,enum,wajib,unverified;source_asserted;corroborated;official;disputed;rejected;not_applicable,Status verifikasi.,official,R-VER-01;R-VER-02;R-VER-03,
+verification,verification_level,enum,wajib,none;low;medium;high;official,Tingkat verifikasi.,official,R-VER-01,
+verification,verification_basis,text,wajib,Teks,Dasar verifikasi.,BMKG official event record,R-VER-01;R-VER-02,
+verification,verification_source_count,integer,wajib_kondisional,Bilangan bulat >= 0,Jumlah sumber independen.,1,R-VER-03,
+verification,verification_method,enum,wajib,official_record;source_check;cross_source;manual_review;automated_check;not_verified,Metode verifikasi.,official_record,R-VER-01,
+verification,verified_at,datetime,opsional,ISO 8601,Waktu verifikasi.,,R-VER-01;R-VER-04,Kosongkan bila belum ada verifikasi manual.
+verification,verified_by,string,opsional,Peran/ID,Pihak yang memverifikasi.,,R-VER-01;R-VER-04,"Gunakan peran, bukan data pribadi."
+verification,verification_notes,text,opsional,Teks,Catatan verifikasi.,,R-VER-01,
+change_log,change_id,string,wajib,ID unik,ID perubahan.,CHG-CONTOH-01,R-CHG-01,
+change_log,target_type,enum,wajib,source;raw_payload;document;event;event_time;event_location;category;document_event_link;event_assertion;event_relation;event_attribute;verification,Objek yang berubah.,event_location,R-CHG-01,
+change_log,target_id,string,wajib,ID target,ID objek yang berubah.,LOCE-CONTOH-01,R-CHG-01,
+change_log,change_type,enum,wajib,create;update;review;merge;split;link;unlink;status_change;retract;no_op,Jenis perubahan.,update,R-CHG-01;R-CHG-02,
+change_log,changed_at,datetime,wajib,ISO 8601,Waktu perubahan.,2026-11-02T10:00:00Z,R-CHG-01,
+change_log,changed_by,string,wajib,Peran/ID,Pihak yang mengubah.,system_import,R-CHG-01;R-CHG-03,"Gunakan peran, bukan data pribadi."
+change_log,field_name,string,opsional,Teks,Field yang berubah.,coordinate_status,R-CHG-02,
+change_log,old_value,text,opsional,Teks,Nilai lama.,source_coordinate,R-CHG-02,
+change_log,new_value,text,opsional,Teks,Nilai baru.,verified,R-CHG-02,
+change_log,change_reason,text,wajib,Teks,Alasan perubahan.,Verifikasi manual koordinat.,R-CHG-02,
+change_log,evidence_ref,text,opsional,URL/path/ID,Bukti perubahan.,RAW-CONTOH-01,R-CHG-02,
+change_log,schema_version,string,wajib,SemVer,Versi skema.,1.0.0,R-CHG-01,
+change_log,manual_review,boolean,wajib,ya;tidak,Apakah perubahan melalui review manual.,ya,R-CHG-03,
+event_attribute,event_attribute_id,string,wajib,ID unik,ID atribut kejadian.,EATTR-CONTOH-01,R-EVT-05,
+event_attribute,event_id,string,wajib,FK event.event_id,Kejadian pemilik atribut.,EVT-CONTOH-01,R-EVT-05,
+event_attribute,attribute_name,string,wajib,Teks,"Nama atribut, mis. magnitude/depth/alert_level; potensi tsunami memakai bmkg_potential_text dan tsunami_potential_status.",magnitude,R-EVT-05,"Untuk tsunami: bmkg_potential_text = nilai mentah; tsunami_potential_status = positive/negative/unknown. Nama tsunami_potential tidak dipakai."
+event_attribute,attribute_value,text,wajib,Teks/angka,Nilai atribut.,4.1,R-EVT-05,
+event_attribute,attribute_unit,string,opsional,Teks,Satuan atribut.,M,R-EVT-05,
+event_attribute,attribute_source_id,string,opsional,FK source.source_id atau NULL,Sumber atribut.,bmkg_gempa_terkini,R-EVT-05;R-SRC-01,
+event_attribute,attribute_confidence,enum,wajib,high;medium;low;unknown,Keyakinan atribut.,high,R-EVT-05,
+event_attribute,attribute_notes,text,opsional,Teks,Catatan atribut.,,R-EVT-05,

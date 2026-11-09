@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Dashboard pemantauan berita dan kejadian geohazard Indonesia.">
+  <title>GeoHazard News Locator</title>
+  <link rel="stylesheet" href="/static/vendor/leaflet/leaflet.css">
+  <link rel="stylesheet" href="/static/vendor/leaflet.markercluster/MarkerCluster.css">
+  <link rel="stylesheet" href="/static/vendor/leaflet.markercluster/MarkerCluster.Default.css">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#ringkasan" aria-label="GeoHazard News Locator">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" role="img">
+            <path d="M16 3 28 25H4L16 3Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+            <path d="M16 10v8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="16" cy="22.5" r="1.5" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="brand-copy">
+          <span class="brand-eyebrow">Sistem Informasi</span>
+          <strong>GeoHazard</strong>
+          <small>News Locator</small>
+        </span>
+      </a>
+
+      <nav class="side-nav" aria-label="Navigasi dashboard">
+        <a class="nav-item active" href="#ringkasan">
+          <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M4 13h6V4H4v9Zm10 7h6v-9h-6v9ZM4 20h6v-3H4v3Zm10-13h6V4h-6v3Z"/></svg>
+          </span>
+          Dashboard
+        </a>
+        <a class="nav-item" href="#peta">
+          <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Z"/><path d="M9 3v15M15 6v15"/></svg>
+          </span>
+          Peta persebaran
+        </a>
+        <a class="nav-item" href="#kategori">
+          <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 19V9m7 10V5m7 14v-7"/></svg>
+          </span>
+          Kategori
+        </a>
+        <a class="nav-item" href="#tren">
+          <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="m4 16 5-5 4 3 7-8"/><path d="M16 6h4v4"/></svg>
+          </span>
+          Tren kejadian
+        </a>
+        <a class="nav-item" href="#wilayah">
+          <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 21s6-5.3 6-11a6 6 0 1 0-12 0c0 5.7 6 11 6 11Z"/><circle cx="12" cy="10" r="2.2"/></svg>
+          </span>
+          Wilayah
+        </a>
+        <a class="nav-item" href="#berita">
+          <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+          </span>
+          Berita terbaru
+        </a>
+        <a class="nav-item" href="#pencarian">
+          <span class="nav-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></svg>
+          </span>
+          Cari berita
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <span class="status-dot" aria-hidden="true"></span>
+        <div>
+          <strong>Database aktif</strong>
+          <small>SQLite read-only</small>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Dashboard utama</p>
+          <h1>GeoHazard News Locator</h1>
+          <p class="subtitle">Pemantauan berita dan kejadian geohazard Indonesia</p>
+        </div>
+        <div class="topbar-actions">
+          <span class="live-chip"><span aria-hidden="true"></span>Data langsung</span>
+          <button id="refreshButton" class="button button-ghost" type="button">Muat ulang</button>
+        </div>
+      </header>
+
+      <section class="panel filter-panel" aria-labelledby="filterTitle">
+        <div class="panel-heading compact">
+          <div>
+            <p class="eyebrow">Filter data</p>
+            <h2 id="filterTitle">Saring dashboard</h2>
+          </div>
+          <p class="panel-note">Semua kartu, grafik, dan tabel mengikuti filter; berita hanya yang relevan.</p>
+        </div>
+        <div class="filter-grid">
+          <label class="field">
+            <span>Kategori</span>
+            <select id="categoryFilter">
+              <option value="all">Semua kategori</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Dari tanggal</span>
+            <input id="dateFrom" type="date">
+          </label>
+          <label class="field">
+            <span>Sampai tanggal</span>
+            <input id="dateTo" type="date">
+          </label>
+          <label class="field">
+            <span>Wilayah</span>
+            <select id="provinceFilter">
+              <option value="all">Semua wilayah</option>
+              <option value="__unknown__">Tidak diketahui</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Kabupaten/Kota</span>
+            <select id="kabupatenFilter" disabled>
+              <option value="all">Pilih provinsi dulu</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Agregasi tren</span>
+            <select id="granularityFilter">
+              <option value="auto">Otomatis</option>
+              <option value="month">Bulanan</option>
+              <option value="day">Harian</option>
+            </select>
+          </label>
+          <div class="filter-actions">
+            <button id="applyFilter" class="button button-primary" type="button">Terapkan</button>
+            <button id="resetFilter" class="button button-ghost" type="button">Reset</button>
+          </div>
+        </div>
+        <p id="filterSummary" class="filter-summary">Menampilkan seluruh data.</p>
+        <p id="filterNotice" class="filter-notice hidden" role="status"></p>
+      </section>
+
+      <section id="ringkasan" class="stats-grid" aria-label="Statistik utama">
+        <article class="stat-card accent-blue">
+          <div class="stat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+          </div>
+          <div class="stat-copy">
+            <span>Total berita</span>
+            <strong id="statDocuments">0</strong>
+            <small>Dokumen aktif relevan</small>
+          </div>
+        </article>
+        <article class="stat-card accent-teal">
+          <div class="stat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3 3 20h18L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17" r=".8"/></svg>
+          </div>
+          <div class="stat-copy">
+            <span>Total kejadian</span>
+            <strong id="statEvents">0</strong>
+            <small>Baris tabel event</small>
+          </div>
+        </article>
+        <article class="stat-card accent-violet">
+          <div class="stat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M5 19V9m7 10V5m7 14v-7"/></svg>
+          </div>
+          <div class="stat-copy">
+            <span>Kategori</span>
+            <strong id="statCategories">0</strong>
+            <small id="statCategoriesNote">dari 9 kategori dipantau</small>
+          </div>
+        </article>
+        <article class="stat-card accent-amber">
+          <div class="stat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 21s6-5.3 6-11a6 6 0 1 0-12 0c0 5.7 6 11 6 11Z"/><circle cx="12" cy="10" r="2.2"/></svg>
+          </div>
+          <div class="stat-copy">
+            <span>Lokasi diketahui</span>
+            <strong id="statLocations">0</strong>
+            <small id="statLocationsNote">0 punya provinsi · 0 punya kab/kota · 0 belum</small>
+          </div>
+        </article>
+        <article class="stat-card accent-rose">
+          <div class="stat-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <div class="stat-copy">
+            <span>Waktu diketahui</span>
+            <strong id="statTimes">0</strong>
+            <small>event_time tersedia</small>
+          </div>
+        </article>
+      </section>
+
+      <section id="peta" class="panel map-panel" aria-labelledby="mapTitle">
+        <div class="panel-heading map-heading">
+          <div>
+            <p class="eyebrow">Peta interaktif</p>
+            <h2 id="mapTitle">Peta Persebaran Bahaya Geologi Indonesia</h2>
+            <p class="panel-note">Marker mengikuti koordinat event yang tersedia; wilayah tidak ditebak dari koordinat.</p>
+          </div>
+          <div class="map-heading-actions">
+            <span id="mapMarkerBadge" class="badge">0 marker</span>
+            <div class="map-layer-switch" role="group" aria-label="Pilih tampilan peta">
+              <button class="map-layer-button active" type="button" data-map-layer="satellite" aria-pressed="true">Satellite</button>
+              <button class="map-layer-button" type="button" data-map-layer="topographic" aria-pressed="false">Topographic</button>
+            </div>
+          </div>
+        </div>
+        <div class="map-layout">
+          <div class="map-canvas-wrap">
+            <div id="mapCanvas" class="map-canvas" role="application" aria-label="Peta persebaran bahaya geologi Indonesia"></div>
+            <div id="mapLoading" class="map-state" role="status" aria-live="polite">
+              <span class="loader"></span>
+              <span>Memuat peta...</span>
+            </div>
+            <div id="mapEmpty" class="map-state hidden" role="status">
+              <strong>Belum ada marker</strong>
+              <span id="mapEmptyText">Tidak ada kejadian dengan koordinat valid pada filter ini.</span>
+            </div>
+            <div id="mapError" class="map-state map-state-error hidden" role="alert">
+              <strong>Peta gagal dimuat</strong>
+              <span id="mapErrorText">Pustaka peta tidak tersedia.</span>
+            </div>
+            <div id="mapTileNotice" class="map-tile-notice hidden" role="status"></div>
+          </div>
+          <aside class="map-side" aria-label="Statistik dan legenda peta">
+            <div class="map-side-block">
+              <h3>Statistik peta</h3>
+              <div id="mapStats" class="map-stats" aria-live="polite"></div>
+            </div>
+            <div class="map-side-block">
+              <h3>Legenda kategori</h3>
+              <div id="mapLegend" class="map-legend" aria-live="polite"></div>
+            </div>
+          </aside>
+        </div>
+        <p class="panel-footnote">Klik marker untuk melihat waktu, wilayah, koordinat, dan berita pendukung; peta dapat diperbesar dan digeser.</p>
+      </section>
+
+      <section class="content-grid">
+        <article id="kategori" class="panel chart-panel span-5">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Distribusi</p>
+              <h2>Kejadian per kategori</h2>
+            </div>
+            <div class="legend">
+              <span><i class="legend-dot event"></i>Jumlah kejadian</span>
+              <span class="legend-hint">Angka kecil: berita</span>
+            </div>
+          </div>
+          <div id="categoryChart" class="bar-chart" aria-live="polite"></div>
+        </article>
+
+        <article id="tren" class="panel chart-panel span-7">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Time series</p>
+              <h2>Tren kejadian</h2>
+            </div>
+            <span id="trendBadge" class="badge">Bulanan</span>
+          </div>
+          <div id="trendChart" class="line-chart" aria-live="polite"></div>
+          <p class="panel-footnote">Basis waktu: <code>event_time</code>, bukan waktu publikasi.</p>
+        </article>
+
+        <article id="wilayah" class="panel chart-panel span-5">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Sebaran</p>
+              <h2>Distribusi wilayah</h2>
+            </div>
+            <span id="regionBadge" class="badge muted">Provinsi</span>
+          </div>
+          <div id="regionChart" class="bar-chart compact-bars" aria-live="polite"></div>
+          <p id="regionNote" class="panel-footnote">Provinsi hanya diambil dari data yang tersedia.</p>
+        </article>
+
+        <article id="berita" class="panel news-panel span-7">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Kronologi</p>
+              <h2>Berita terbaru</h2>
+            </div>
+            <span id="newsCount" class="badge muted">0 berita</span>
+          </div>
+          <div id="newsTableWrap" class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th scope="col">Judul</th>
+                  <th scope="col">Sumber</th>
+                  <th scope="col">Publikasi</th>
+                  <th scope="col">Kategori</th>
+                  <th scope="col" class="text-right">Tautan</th>
+                </tr>
+              </thead>
+              <tbody id="newsBody"></tbody>
+            </table>
+          </div>
+          <div id="newsEmpty" class="empty-state hidden">
+            <strong>Belum ada berita relevan pada filter ini.</strong>
+            <span>Coba ubah kategori, tanggal, atau wilayah.</span>
+          </div>
+        </article>
+      </section>
+
+      <section id="pencarian" class="panel search-panel" aria-labelledby="searchTitle">
+        <div class="panel-heading compact">
+          <div>
+            <p class="eyebrow">Pencarian</p>
+            <h2 id="searchTitle">Cari berita</h2>
+            <p class="panel-note">Pencarian judul, teks tersimpan, dan ringkasan kejadian; hasil hanya berita relevan.</p>
+          </div>
+          <span id="searchCount" class="badge muted">0 berita</span>
+        </div>
+        <form id="newsSearchForm" class="search-form">
+          <label class="field search-query-field">
+            <span>Kata kunci</span>
+            <input id="newsQuery" type="search" placeholder="Cari judul atau isi berita..." autocomplete="off">
+          </label>
+          <label class="field">
+            <span>Kategori</span>
+            <select id="newsCategoryFilter">
+              <option value="all">Semua kategori</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Sumber</span>
+            <select id="newsSourceFilter">
+              <option value="all">Semua sumber</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Dari tanggal</span>
+            <input id="newsDateFrom" type="date">
+          </label>
+          <label class="field">
+            <span>Sampai tanggal</span>
+            <input id="newsDateTo" type="date">
+          </label>
+          <div class="filter-actions search-actions">
+            <button id="newsSearchButton" class="button button-primary" type="submit">Cari</button>
+            <button id="newsResetButton" class="button button-ghost" type="button">Reset</button>
+          </div>
+        </form>
+        <div id="searchResultsWrap" class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Judul</th>
+                <th scope="col">Sumber</th>
+                <th scope="col">Publikasi</th>
+                <th scope="col">Kategori</th>
+                <th scope="col">Relevansi</th>
+                <th scope="col" class="text-right">Tautan</th>
+              </tr>
+            </thead>
+            <tbody id="searchResultsBody"></tbody>
+          </table>
+        </div>
+        <div id="searchEmpty" class="empty-state hidden">
+          <strong>Tidak ada berita yang cocok.</strong>
+          <span>Coba kata kunci, kategori, sumber, atau tanggal lain.</span>
+        </div>
+        <div id="searchError" class="search-error hidden" role="alert">
+          <strong>Pencarian gagal dimuat.</strong>
+          <span id="searchErrorText">Terjadi kesalahan saat membaca database.</span>
+        </div>
+        <div id="searchLoading" class="search-loading hidden" role="status" aria-live="polite">
+          <span class="loader"></span>
+          <span>Mencari berita...</span>
+        </div>
+        <div id="searchPagination" class="search-pagination hidden">
+          <button id="searchPrev" class="button button-ghost" type="button">Sebelumnya</button>
+          <span id="searchPageLabel">Halaman 1</span>
+          <button id="searchNext" class="button button-ghost" type="button">Berikutnya</button>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span>GeoHazard News Locator</span>
+        <span id="metaNote">Membaca database SQLite proyek secara read-only.</span>
+      </footer>
+    </main>
+  </div>
+
+  <div id="loadingOverlay" class="loading-overlay hidden" role="status" aria-live="polite">
+    <div class="loader"></div>
+    <span>Memuat data dashboard...</span>
+  </div>
+  <div id="toast" class="toast hidden" role="alert"></div>
+
+  <script src="/static/vendor/leaflet/leaflet.js"></script>
+  <script src="/static/vendor/leaflet.markercluster/leaflet.markercluster.js"></script>
+  <script src="/static/app.js"></script>
+</body>
+</html>

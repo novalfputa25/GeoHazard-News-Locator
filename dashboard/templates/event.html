@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Detail kejadian geohazard dan berita pendukung.">
+  <title>Detail Kejadian - GeoHazard News Locator</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body class="detail-page">
+  <div class="detail-shell">
+    <header class="detail-topbar">
+      <a class="brand detail-brand" href="/" aria-label="GeoHazard News Locator">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" role="img">
+            <path d="M16 3 28 25H4L16 3Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+            <path d="M16 10v8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/>
+            <circle cx="16" cy="22.5" r="1.5" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="brand-copy">
+          <span class="brand-eyebrow">Sistem Informasi</span>
+          <strong>GeoHazard</strong>
+          <small>News Locator</small>
+        </span>
+      </a>
+      <div class="detail-topbar-actions">
+        <a id="mapLink" class="button button-ghost" href="/#peta">Kembali ke peta</a>
+        <a id="backLink" class="button button-primary" href="/">Kembali ke dashboard</a>
+      </div>
+    </header>
+
+    <main id="detailContent" class="detail-main" aria-live="polite">
+      <section class="panel detail-hero">
+        <div class="detail-heading">
+          <div>
+            <p class="eyebrow">Detail kejadian</p>
+            <h1 id="eventTitle">Memuat detail kejadian...</h1>
+            <p id="eventSummary" class="detail-summary">Mengambil data dari database read-only.</p>
+          </div>
+          <div class="detail-badges">
+            <span id="eventCategory" class="badge">Kategori belum tersedia</span>
+            <span id="eventStatus" class="badge muted">Status belum tersedia</span>
+            <span id="eventVerification" class="badge muted">Verifikasi belum tersedia</span>
+          </div>
+        </div>
+        <dl id="eventMeta" class="detail-meta"></dl>
+      </section>
+
+      <section class="detail-grid">
+        <article class="panel detail-section">
+          <div class="panel-heading compact">
+            <div>
+              <p class="eyebrow">Lokasi</p>
+              <h2>Lokasi kejadian</h2>
+            </div>
+          </div>
+          <div id="eventLocations" class="detail-location-list"></div>
+          <div id="eventLocationsEmpty" class="empty-state hidden">
+            <strong>Lokasi belum tersedia.</strong>
+            <span>Database tidak memiliki baris lokasi untuk kejadian ini.</span>
+          </div>
+        </article>
+
+        <article class="panel detail-section">
+          <div class="panel-heading compact">
+            <div>
+              <p class="eyebrow">Atribut</p>
+              <h2>Atribut kejadian</h2>
+            </div>
+          </div>
+          <div id="eventAttributes" class="detail-attribute-list"></div>
+          <div id="eventAttributesEmpty" class="empty-state hidden">
+            <strong>Atribut belum tersedia.</strong>
+            <span>Tidak ada atribut terstruktur untuk kejadian ini.</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel detail-section">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Berita pendukung</p>
+            <h2>Berita relevan yang terhubung</h2>
+            <p class="panel-note">Waktu publikasi berita berbeda dari waktu kejadian.</p>
+          </div>
+          <span id="supportingNewsCount" class="badge muted">0 berita</span>
+        </div>
+        <div id="supportingNewsWrap" class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th scope="col">Judul</th>
+                <th scope="col">Sumber</th>
+                <th scope="col">Publikasi</th>
+                <th scope="col">Kategori</th>
+                <th scope="col">Relevansi</th>
+                <th scope="col" class="text-right">Tautan</th>
+              </tr>
+            </thead>
+            <tbody id="supportingNewsBody"></tbody>
+          </table>
+        </div>
+        <div id="supportingNewsEmpty" class="empty-state hidden">
+          <strong>Belum ada berita relevan untuk kejadian ini.</strong>
+          <span>Tidak ada dokumen pendukung yang lolos kebijakan relevansi dashboard.</span>
+        </div>
+      </section>
+
+      <section class="panel detail-section detail-notes">
+        <div class="panel-heading compact">
+          <div>
+            <p class="eyebrow">Catatan data</p>
+            <h2>Keterbatasan informasi</h2>
+          </div>
+        </div>
+        <p id="eventNotes">Catatan kejadian belum tersedia.</p>
+        <p id="eventSourceNote" class="panel-footnote">Sumber utama belum tersedia.</p>
+        <p id="metaNote" class="panel-footnote">Membaca database SQLite proyek secara read-only.</p>
+      </section>
+    </main>
+
+    <footer class="footer detail-footer">
+      <span>GeoHazard News Locator</span>
+      <span>Detail kejadian tidak menebak data yang tidak tersimpan.</span>
+    </footer>
+  </div>
+
+  <div id="detailLoading" class="loading-overlay" role="status" aria-live="polite">
+    <div class="loader"></div>
+    <span>Memuat detail kejadian...</span>
+  </div>
+  <div id="detailError" class="toast detail-error hidden" role="alert">
+    <span id="detailErrorText">Detail kejadian gagal dimuat.</span>
+  </div>
+
+  <script src="/static/event.js"></script>
+</body>
+</html>
