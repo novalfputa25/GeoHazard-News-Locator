@@ -194,6 +194,16 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
+### Memperbarui Repository
+
+Dari folder project:
+
+```powershell
+git pull origin clean-project
+```
+
+Jika branch `clean-project` sudah dijadikan branch default, `git pull` sudah cukup.
+
 ## 10. Cara Menjalankan Dashboard
 
 Database operasional tidak disertakan. Dashboard membutuhkan database SQLite yang sesuai dengan `database/schema.sql` pada path default `database/geohazard.db`, atau path lain yang diberikan melalui opsi `--db`.
